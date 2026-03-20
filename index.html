@@ -10,7 +10,7 @@
 
     <script>
         var deviceId = crypto.randomUUID();
-        const socket = new WebSocket("wss://lumen-web-drawing-server-production.up.railway.app/");
+        const socket = new WebSocket("wss://stellar-magic-production.up.railway.app/");
         socket.addEventListener("open", () => {
             socket.send(JSON.stringify({ role: "mobile", id: deviceId }));
         });
