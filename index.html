@@ -200,14 +200,6 @@
         </div>
     </div>
 
-    <div id="welcome_overlay">
-        <div id="welcome_dialog">
-            <button id="welcome_close">✕</button>
-            <p>Dibuja tu significado de comunidad</p>
-            <p id="welcome_hint">Toca el lienzo para empezar</p>
-        </div>
-    </div>
-
     <script>
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
@@ -235,17 +227,6 @@
         window.addEventListener("resize", resizeCanvas);
         resizeCanvas();
 
-        // Welcome dialog
-        const welcomeOverlay = document.getElementById("welcome_overlay");
-
-        function closeWelcome() {
-            welcomeOverlay.classList.add("hidden");
-        }
-
-        welcomeOverlay.addEventListener("click", e => {
-            if (e.target === welcomeOverlay) closeWelcome();
-        });
-
         // Drawing
         function getPos(e) {
             const now = Date.now();
@@ -255,7 +236,6 @@
         }
 
         function startDraw(e) {
-            closeWelcome();
             drawing = true;
             lastTime = null;
             elapsedTime = 0;
@@ -344,6 +324,16 @@
         welcomeOverlay.addEventListener("touchend", e => {
             if (e.target === welcomeOverlay) closeWelcome();
         });
+
+        document.getElementById("download").onclick = () => {
+            const coordsBlob = new Blob([JSON.stringify(points, null, 2)], { type: "application/json" });
+            const coordsUrl = URL.createObjectURL(coordsBlob);
+            const coordsLink = document.createElement("a");
+            coordsLink.href = coordsUrl;
+            coordsLink.download = "coordinates.json";
+            coordsLink.click();
+            URL.revokeObjectURL(coordsUrl);
+        };
     </script>
 
 </body>
